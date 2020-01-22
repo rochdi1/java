@@ -23,8 +23,6 @@ public class MagischesQuadrat extends Frame{
     int groesse;
     
     Font schrift = new Font("Arial", Font.PLAIN, 24);
-    
-    
     /**** 2 Schritt ******/   
     Panel steuerPanel = new Panel(new GridLayout(1, 3));
         Button neuSort = new Button("Neu Sortiert");   
@@ -76,12 +74,50 @@ public class MagischesQuadrat extends Frame{
                
     }
     
+    public void summen() {
+        // zeilenSummen
+
+            for(int zeilen = 0; zeilen < groesse; zeilen++) {
+                int summe = 0;
+               for(int spalten = 0; spalten  < groesse; spalten++) {
+                summe += Integer.parseInt(zahlen[zeilen][spalten].getLabel());
+                 }
+               zeilenSummen[zeilen].setLabel(String.valueOf(summe));
+             }
+        
+        // splatenSummen
+             for(int spalten = 0; spalten < groesse; spalten++) {
+                int summe = 0;
+               for(int zeilen = 0; zeilen  < groesse; zeilen++) {
+                summe += Integer.parseInt(zahlen[zeilen][spalten].getLabel());
+                 }
+               spaltenSummen[spalten].setLabel(String.valueOf(summe));
+             }
+        
+        // HauptdiagonalSumme
+                 int summe = 0;
+                    for(int i = 0; i < groesse; i++) {
+                        summe+=Integer.parseInt(zahlen[i][i].getLabel());
+                     }   
+               hauptdiagonale.setLabel(String.valueOf(summe));
+             
+        
+        //nebenDiagonalSumme
+                    int summed = 0;
+                    for(int zeile = 0, spalte = groesse-1 ; zeile < groesse; zeile++, spalte--) {
+                        summed+=Integer.parseInt(zahlen[zeile][spalte].getLabel());
+                     }   
+               nebendiagonale.setLabel(String.valueOf(summed));
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new MagischesQuadrat(4);
+        new MagischesQuadrat(9);
         
     }
 
@@ -129,10 +165,30 @@ public class MagischesQuadrat extends Frame{
        for(int i = 0; i < groesse; i++) {
            spielfeld.add(new Panel());
        }
+       
+       // Einbau Nebendiagonalsumme
        spielfeld.add(nebendiagonale);
+
+       // Einbau SpielfeldZahlen und Zeilen
+       
+       for(int zeile=0; zeile < groesse; zeile++) {
+           for(int spalte = 0; spalte < groesse; spalte++) {
+                  spielfeld.add(zahlen[zeile][spalte]);
+           }
+           spielfeld.add(zeilenSummen[zeile]);
+       }
+       
+       
+       //Einbau spaltenSummen
+       for(int spalte= 0; spalte<groesse; spalte++) {
+           spielfeld.add(spaltenSummen[spalte]);     
+       }
+           //Einbau Haupdiagonal
+           spielfeld.add(hauptdiagonale);
+       
        this.add("Center", spielfeld);
-               
-          
+       summen();
+      
     }
     
 }
