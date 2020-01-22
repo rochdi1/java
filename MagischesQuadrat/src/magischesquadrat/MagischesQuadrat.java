@@ -7,10 +7,13 @@ package magischesquadrat;
 
 import java.awt.Button;
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,7 +21,7 @@ import java.awt.event.WindowEvent;
  *
  * @author Teilnehmer
  */
-public class MagischesQuadrat extends Frame{
+public class MagischesQuadrat extends Frame implements ActionListener{
 
     int groesse;
     
@@ -54,6 +57,7 @@ public class MagischesQuadrat extends Frame{
                 }
         });  
         
+        
         // setzen die schrift an die Button
           neuSort.setFont(schrift);
           neuGemidscht.setFont(schrift);
@@ -73,6 +77,10 @@ public class MagischesQuadrat extends Frame{
         this.setVisible(true);
                
     }
+    
+    
+    
+    
     
     public void summen() {
         // zeilenSummen
@@ -110,14 +118,16 @@ public class MagischesQuadrat extends Frame{
                nebendiagonale.setLabel(String.valueOf(summed));
     }
     
-    
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(((Button)e.getSource()).getLabel());
+    }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new MagischesQuadrat(9);
+        new MagischesQuadrat(4);
         
     }
 
@@ -140,18 +150,24 @@ public class MagischesQuadrat extends Frame{
             for(int zeilen = 0; zeilen < groesse; zeilen++) {
                for(int spalten = 0; spalten  < groesse; spalten++) {
                    zahlen[zeilen][spalten] = new Button(String.valueOf(zaehler));
-                   zaehler++;
+                    zahlen[zeilen][spalten].setFont(schrift);
+                    zahlen[zeilen][spalten].addActionListener(this);
+                    zaehler++;
                }
            } 
             
         // Button-Object für Zeilensummen erstellen   
            for(int i = 0; i < groesse; i++) {
-               zeilenSummen[i] = new Button();                       
+               zeilenSummen[i] = new Button();  
+               zeilenSummen[i].setBackground(Color.YELLOW);
+               zeilenSummen[i].setFont(schrift);
            }         
             
         // Button-Object für spaltenSummen erstellen   
            for(int i = 0; i < groesse; i++) {
-               spaltenSummen[i] = new Button();                       
+               spaltenSummen[i] = new Button();  
+               spaltenSummen[i].setBackground(Color.YELLOW);
+               spaltenSummen[i].setFont(schrift);
            }    
            
         // Button-Object für hauptdiagonale erstellen   
@@ -159,6 +175,10 @@ public class MagischesQuadrat extends Frame{
         // Button-Object für nebendiagonale erstellen   
                nebendiagonale = new Button();  
                
+               hauptdiagonale.setBackground(Color.CYAN);
+               hauptdiagonale.setFont(schrift);
+               nebendiagonale.setBackground(Color.CYAN);
+               nebendiagonale.setFont(schrift);
                
        // Einbauen der button-Object in den Panel "SpielFled"      
        // leer Panels als Platzthalter
